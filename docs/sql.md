@@ -16,19 +16,46 @@
 （4）用户管理：添加用户、权限修改、删除系统用户。
 
 ```sql
-create database if not exists store character set utf8;
+create database if not exists store
+  character set utf8;
 
 use store;
 
 create table if not exists client (
-  id int(10) primary key not null auto_increment,
-  name varchar(20) not null ,
-  type enum('1','2','3','4','5') not null default '5',
-  contacts varchar(20) not null ,
-  concat_phone int(13) not null ,
-  address varchar(200) ,
-  mark varchar(200)
-) default charset = utf8;
+  id           int(10) primary key            not null auto_increment,
+  name         varchar(20)                    not null,
+  type         enum ('1', '2', '3', '4', '5') not null default '5',
+  contacts     varchar(20)                    not null,
+  concat_phone int(13)                        not null,
+  address      varchar(200),
+  mark         varchar(200)
+)
+  default charset = utf8;
 
+create table if not exists store_info (
+  id        int(10) primary key not null auto_increment,
+  name      varchar(20)         not null,
+  `declare` varchar(200)        not null
+)
+  default charset = utf8;
 
+create table if not exists product (
+  id            int(10) primary key not null auto_increment,
+  name          varchar(20)         not null,
+  specification varchar(20)         not null,
+  price         double(20, 2)       not null,
+  upper_limit   int(10)             not null default 1,
+  lower_limit   int(10)             not null default 0
+)
+  default charset = utf8;
+
+create table if not exists user (
+  id          int(10) primary key  not null auto_increment,
+  name        varchar(20)          not null,
+  password    varchar(20)          not null,
+  permissions enum ('1', '2', '3') not null default '3'
+  comment '限制 - 1：超级管理员  2：普通管理员  3：游客',
+  mark        varchar(200)
+)
+  default charset = utf8;
 ```
