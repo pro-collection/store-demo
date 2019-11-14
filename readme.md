@@ -17,6 +17,8 @@
 （4）用户管理：添加用户、权限修改、删除系统用户。
 ```
 
+修改 `application.config.yml` --> `application.yml` 参数改为自己数据库的参数即可
+
 ```sql
 create database if not exists store
   character set utf8;
