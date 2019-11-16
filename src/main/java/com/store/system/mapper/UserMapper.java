@@ -5,11 +5,13 @@ import org.springframework.stereotype.Component;
 
 @Component(value = "userMapper")
 public interface UserMapper {
-    User getUser(String id);
+    User getUser(int id);
 
     void createUser(User user);
 
     User getUserByNameAndPassword(String name, String password);
 
     void update(User user);
+
+    void delete(int id);
 }

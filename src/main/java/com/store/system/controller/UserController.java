@@ -26,10 +26,8 @@ public class UserController {
 
     @PostMapping("create")
     public BaseResponse create(HttpServletRequest request) {
-        User user;
         try {
-            String requestString = JsonRequest.getPayload(request);
-            user = JSONObject.parseObject(requestString, User.class);
+            User user = JSONObject.parseObject(JsonRequest.getPayload(request), User.class);
 
             User userInfo = userService.getUser(user.getName(), user.getPassword());
             if (userInfo != null) return BaseResponse.responseError("该用户已经注册过了");
@@ -43,11 +41,12 @@ public class UserController {
 
     @PostMapping("login")
     public BaseResponse login(HttpServletRequest request, HttpServletResponse response) {
-        User user = new User();
-        String requestString = JsonRequest.getPayload(request);
-        user = JSONObject.parseObject(requestString, User.class);
+        User user = JSONObject.parseObject(JsonRequest.getPayload(request), User.class);
 
         User userInfo = userService.getUser(user.getName(), user.getPassword());
+        if (userInfo == null) {
+            return BaseResponse.responseError("不存在该用户");
+        }
 
         // 设置token 到 cookie
         String token = UUID.randomUUID().toString();
@@ -71,9 +70,7 @@ public class UserController {
 
     @PostMapping("get")
     public BaseResponse getUserInfo(HttpServletRequest request) {
-        User user = new User();
-        String requestString = JsonRequest.getPayload(request);
-        user = JSONObject.parseObject(requestString, User.class);
+        User user = JSONObject.parseObject(JsonRequest.getPayload(request), User.class);
 
         User userInfo = userService.getUser(user.getName(), user.getPassword());
         return BaseResponse.responseSuccess(userInfo, "查询用户信息成功");
@@ -81,9 +78,7 @@ public class UserController {
 
     @PostMapping("update")
     public BaseResponse update(HttpServletRequest request) {
-        User user = new User();
-        String requestString = JsonRequest.getPayload(request);
-        user = JSONObject.parseObject(requestString, User.class);
+        User user = JSONObject.parseObject(JsonRequest.getPayload(request), User.class);
 
         if (user.getName() == null | user.getPassword() == null) {
             return BaseResponse.responseError("用户名和密码必填");
@@ -91,11 +86,28 @@ public class UserController {
 
         User userInfo = userService.getUser(user.getName(), user.getPassword());
 
-        if(userInfo != null) {
+        if (userInfo != null) {
             return BaseResponse.responseError("已存在该用户");
         }
 
         userService.update(user);
         return BaseResponse.responseSuccess(user, "更新成功");
+    }
+
+    @PostMapping("delete")
+    public BaseResponse delete(HttpServletRequest request) {
+        User user = JSONObject.parseObject(JsonRequest.getPayload(request), User.class);
+
+        if (user.getId() == 0) {
+            return BaseResponse.responseError("填写用户ID");
+        }
+
+        User findUser = userService.getUserById(user.getId());
+        if(findUser==null) {
+            return BaseResponse.responseError("该用户不存在");
+        }
+
+        userService.delete(user.getId());
+        return BaseResponse.responseSuccess(null, "删除用户成功");
     }
 }

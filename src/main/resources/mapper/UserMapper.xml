@@ -14,7 +14,7 @@
         </if>
     </insert>
 
-    <select id="getUser" parameterType="string" resultType="com.store.system.entity.User">
+    <select id="getUser" parameterType="int" resultType="com.store.system.entity.User">
         select id, name, password, permissions, mark from user where id = #{id}
     </select>
 
@@ -34,4 +34,8 @@
         </if>
         where id = #{id}
     </update>
+
+    <delete id="delete" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
 </mapper>

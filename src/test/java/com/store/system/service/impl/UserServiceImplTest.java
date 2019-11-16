@@ -38,4 +38,9 @@ class UserServiceImplTest {
         updateUser.setPassword("yanle3");
         userService.update(updateUser);
     }
+
+    @Test
+    void delete() {
+        userService.delete(4);
+    }
 }
