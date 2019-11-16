@@ -9,5 +9,5 @@ public interface UserService {
 
     User getUser(String name, String password);
 
-    User update(User user);
+    void update(User user);
 }

@@ -22,12 +22,16 @@
         select id, name, password, permissions, mark from user where name = #{name} and password=#{password}
     </select>
 
-    <update id="update">
+    <update id="update" parameterType="com.store.system.entity.User">
         update user set
         name = #{name},
-        password = #{password},
-        permissions = #{permissions},
-        mark = #{mark}
+        password = #{password}
+        <if test="permissions">
+            permissions = #{permissions}
+        </if>
+        <if test="mark">
+            mark = #{mark}
+        </if>
         where id = #{id}
     </update>
 </mapper>

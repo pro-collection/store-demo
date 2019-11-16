@@ -11,5 +11,5 @@ public interface UserMapper {
 
     User getUserByNameAndPassword(String name, String password);
 
-    User update(User user);
+    void update(User user);
 }

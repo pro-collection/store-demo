@@ -95,6 +95,7 @@ public class UserController {
             return BaseResponse.responseError("已存在该用户");
         }
 
-        return BaseResponse.responseSuccess(userService.update(user), "更新成功");
+        userService.update(user);
+        return BaseResponse.responseSuccess(user, "更新成功");
     }
 }
