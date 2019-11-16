@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping("create")
     public BaseResponse create(HttpServletRequest request) {
-        User user = null;
+        User user;
         try {
             String requestString = JsonRequest.getPayload(request);
             user = JSONObject.parseObject(requestString, User.class);

@@ -20,7 +20,7 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @PostMapping("/create")
+    @PostMapping("create")
     public BaseResponse create(HttpServletRequest request) {
         Client client;
         try {
