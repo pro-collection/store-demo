@@ -34,4 +34,19 @@ public class UserController {
         }
         return BaseResponse.responseSuccess(null, "success");
     }
+
+    @PostMapping("login")
+    public BaseResponse login(HttpServletRequest request) {
+        User user = new User();
+        try {
+            String requestString = JsonRequest.getPayload(request);
+            user = JSONObject.parseObject(requestString, User.class);
+
+            User userInfo = userService.getUser(user.getName(), user.getPassword());
+            return BaseResponse.responseSuccess(userInfo, "登录成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.responseError(e.getMessage());
+        }
+    }
 }
