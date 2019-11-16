@@ -8,4 +8,6 @@ public interface UserService {
     void createUser(User user);
 
     User getUser(String name, String password);
+
+    User update(User user);
 }

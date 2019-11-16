@@ -21,4 +21,13 @@
     <select id="getUserByNameAndPassword" parameterType="string" resultType="com.store.system.entity.User">
         select id, name, password, permissions, mark from user where name = #{name} and password=#{password}
     </select>
+
+    <update id="update">
+        update user set
+        name = #{name},
+        password = #{password},
+        permissions = #{permissions},
+        mark = #{mark}
+        where id = #{id}
+    </update>
 </mapper>

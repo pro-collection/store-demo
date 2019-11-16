@@ -10,4 +10,6 @@ public interface UserMapper {
     void createUser(User user);
 
     User getUserByNameAndPassword(String name, String password);
+
+    User update(User user);
 }

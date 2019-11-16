@@ -1,16 +1,22 @@
 package com.store.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.store.system.constant.CookieConstant;
 import com.store.system.data.BaseResponse;
 import com.store.system.entity.User;
 import com.store.system.service.UserService;
+import com.store.system.utils.CookieUtil;
 import com.store.system.utils.JsonRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -36,17 +42,59 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public BaseResponse login(HttpServletRequest request) {
+    public BaseResponse login(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
-        try {
-            String requestString = JsonRequest.getPayload(request);
-            user = JSONObject.parseObject(requestString, User.class);
+        String requestString = JsonRequest.getPayload(request);
+        user = JSONObject.parseObject(requestString, User.class);
 
-            User userInfo = userService.getUser(user.getName(), user.getPassword());
-            return BaseResponse.responseSuccess(userInfo, "登录成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return BaseResponse.responseError(e.getMessage());
+        User userInfo = userService.getUser(user.getName(), user.getPassword());
+
+        // 设置token 到 cookie
+        String token = UUID.randomUUID().toString();
+        Integer expire = CookieConstant.EXPIRE;
+        CookieUtil.set(response, CookieConstant.TOKEN, token, expire);
+
+        return BaseResponse.responseSuccess(userInfo, "登录成功");
+    }
+
+    @GetMapping("logout")
+    public BaseResponse logout(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
+
+        if (cookie != null) {
+            CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
+            return BaseResponse.responseSuccess(null, "退出登录");
+        } else {
+            return BaseResponse.responseError("当前是为登录状态");
         }
+    }
+
+    @PostMapping("get")
+    public BaseResponse getUserInfo(HttpServletRequest request) {
+        User user = new User();
+        String requestString = JsonRequest.getPayload(request);
+        user = JSONObject.parseObject(requestString, User.class);
+
+        User userInfo = userService.getUser(user.getName(), user.getPassword());
+        return BaseResponse.responseSuccess(userInfo, "查询用户信息成功");
+    }
+
+    @PostMapping("update")
+    public BaseResponse update(HttpServletRequest request) {
+        User user = new User();
+        String requestString = JsonRequest.getPayload(request);
+        user = JSONObject.parseObject(requestString, User.class);
+
+        if (user.getName() == null | user.getPassword() == null) {
+            return BaseResponse.responseError("用户名和密码必填");
+        }
+
+        User userInfo = userService.getUser(user.getName(), user.getPassword());
+
+        if(userInfo != null) {
+            return BaseResponse.responseError("已存在该用户");
+        }
+
+        return BaseResponse.responseSuccess(userService.update(user), "更新成功");
     }
 }
