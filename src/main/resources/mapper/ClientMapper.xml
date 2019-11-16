@@ -10,7 +10,7 @@
             name=#{name}
         </if>
 
-        <if test="type != null and name != ''">
+        <if test="type != null and type != ''">
             type=#{type}
         </if>
         <if test="contacts != null and contacts != ''">

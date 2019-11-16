@@ -4,17 +4,13 @@
 <mapper namespace="com.store.system.mapper.UserMapper">
 
     <insert id="createUser" parameterType="com.store.system.entity.User">
-        insert into user
-        set
+        insert into user set
         <if test="name != null and name != ''">
-            name=#{name}
+            name = #{name},
         </if>
 
         <if test="password != null and password != ''">
-            password=#{password}
-        </if>
-        <if test="permissions != null and permissions != ''">
-            permissions=#{permissions}
+            password = #{password}
         </if>
     </insert>
 
@@ -23,6 +19,6 @@
     </select>
 
     <select id="getUserByNameAndPassword" parameterType="string" resultType="com.store.system.entity.User">
-        select id, name, password, permissions, mark from user where name = #{name}
+        select id, name, password, permissions, mark from user where name = #{name} and password=#{password}
     </select>
 </mapper>
