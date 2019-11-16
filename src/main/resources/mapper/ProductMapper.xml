@@ -4,30 +4,32 @@
 <mapper namespace="com.store.system.mapper.ProductMapper">
 
     <insert id="insertProduct" parameterType="com.store.system.entity.Product">
-        insert into product set
-        <if test="name != null and name != ''">
-            name = #{name},
-        </if>
+        insert into product
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
 
-        <if test="specification != null and specification != ''">
-            specification = #{specification},
-        </if>
+            <if test="specification != null and specification != ''">
+                specification = #{specification},
+            </if>
 
-        <if test="price != null and price != 0 ">
-            price = #{price},
-        </if>
+            <if test="price != null and price != 0 ">
+                price = #{price},
+            </if>
 
-        <if test="upperLimit != null and upperLimit != 0 ">
-            upper_limit = #{upperLimit},
-        </if>
+            <if test="upperLimit != null and upperLimit != 0 ">
+                upper_limit = #{upperLimit},
+            </if>
 
-        <if test="lowerLimit != null and lowerLimit != 0 ">
-            lower_limit = #{lowerLimit},
-        </if>
+            <if test="lowerLimit != null and lowerLimit != 0 ">
+                lower_limit = #{lowerLimit},
+            </if>
 
-        <if test="url != null and lowerLimit != '' ">
-            url = #{url}
-        </if>
+            <if test="url != null and lowerLimit != '' ">
+                url = #{url},
+            </if>
+        </trim>
     </insert>
 
     <select id="findProductList" parameterType="string" resultType="com.store.system.entity.Product">
