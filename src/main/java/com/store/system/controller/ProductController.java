@@ -6,6 +6,7 @@ import com.store.system.entity.Product;
 import com.store.system.service.ProductService;
 import com.store.system.utils.JsonRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,5 +40,23 @@ public class ProductController {
     @GetMapping("list")
     public BaseResponse getList() {
         return BaseResponse.responseSuccess(productService.findList(), "查询商品成功");
+    }
+
+    @PostMapping("remove")
+    public BaseResponse removeProduct(HttpServletRequest request) {
+        Product product = new Product();
+        try {
+            String requestString = JsonRequest.getPayload(request);
+            product = JSONObject.parseObject(requestString, Product.class);
+            if (product.getId() != 0) {
+                productService.removeProduct(product.getId());
+                return BaseResponse.responseSuccess(null, "删除商品成功");
+            } else {
+                return BaseResponse.responseError("id 为空");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponse.responseError(e.getMessage());
+        }
     }
 }

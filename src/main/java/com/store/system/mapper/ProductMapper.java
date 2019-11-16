@@ -10,4 +10,6 @@ public interface ProductMapper {
     List<Product> findProductList();
 
     void insertProduct(Product product);
+
+    void removeProduct(int id);
 }

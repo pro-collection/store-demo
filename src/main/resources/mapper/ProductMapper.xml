@@ -22,7 +22,11 @@
         </if>
 
         <if test="lowerLimit != null and lowerLimit != 0 ">
-            lower_limit = #{lowerLimit}
+            lower_limit = #{lowerLimit},
+        </if>
+
+        <if test="url != null and lowerLimit != '' ">
+            url = #{url}
         </if>
     </insert>
 
@@ -33,7 +37,12 @@
         specification,
         price,
         upper_limit as upperLimit,
-        lower_limit as lowerLimit
+        lower_limit as lowerLimit,
+        url
         from product
     </select>
+
+    <delete id="removeProduct" parameterType="int">
+        delete from product where id = #{id}
+    </delete>
 </mapper>

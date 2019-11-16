@@ -22,4 +22,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findList() {
         return productMapper.findProductList();
     }
+
+    @Override
+    public void removeProduct(int id) {
+        productMapper.removeProduct(id);
+    }
 }

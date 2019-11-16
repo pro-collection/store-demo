@@ -8,6 +8,7 @@ public class Product {
     private String name;
     private String specification;
     private double price;
-    private int upper_limit;
-    private int lower_limit;
+    private int upperLimit;
+    private int lowerLimit;
+    private String url;
 }

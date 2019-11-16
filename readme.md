@@ -53,7 +53,7 @@ create table if not exists product (
 )
   default charset = utf8;
 
-alter table product add column url varchar(200);
+alter table product modify column url LONG;
 
 create table if not exists user (
   id          int(10) primary key  not null auto_increment,
