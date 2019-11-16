@@ -8,4 +8,6 @@ public interface UserMapper {
     User getUser(String id);
 
     void createUser(User user);
+
+    User getUserByNameAndPassword(String name, String password);
 }

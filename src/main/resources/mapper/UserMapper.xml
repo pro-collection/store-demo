@@ -4,26 +4,25 @@
 <mapper namespace="com.store.system.mapper.UserMapper">
 
     <insert id="createUser" parameterType="com.store.system.entity.User">
-        insert into client
+        insert into user
         set
         <if test="name != null and name != ''">
             name=#{name}
         </if>
 
-        <if test="type != null and name != ''">
-            type=#{type}
+        <if test="password != null and password != ''">
+            password=#{password}
         </if>
-        <if test="contacts != null and contacts != ''">
-            contacts=#{contacts}
+        <if test="permissions != null and permissions != ''">
+            permissions=#{permissions}
         </if>
-        <if test="concatPhone != null and concatPhone != 0">
-            concat_phone=#{concatPhone}
-        </if>
-        address=#{address},
-        mark=#{mark}
     </insert>
 
     <select id="getUser" parameterType="string" resultType="com.store.system.entity.User">
-        select id, name, pwssword, permissions, mark from user where id = #{id}
+        select id, name, password, permissions, mark from user where id = #{id}
+    </select>
+
+    <select id="getUserByNameAndPassword" parameterType="string" resultType="com.store.system.entity.User">
+        select id, name, password, permissions, mark from user where name = #{name}
     </select>
 </mapper>

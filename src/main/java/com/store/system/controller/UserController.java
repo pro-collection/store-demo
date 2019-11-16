@@ -24,6 +24,9 @@ public class UserController {
         try {
             String requestString = JsonRequest.getPayload(request);
             user = JSONObject.parseObject(requestString, User.class);
+
+            User userInfo = userService.getUser(user.getName(), user.getPassword());
+            if (userInfo != null) return BaseResponse.responseError("该用户已经注册过了");
             userService.createUser(user);
         } catch (Exception e) {
             e.printStackTrace();
