@@ -23,15 +23,17 @@
     </select>
 
     <update id="update" parameterType="com.store.system.entity.User">
-        update user set
-        name = #{name},
-        password = #{password}
-        <if test="permissions">
-            permissions = #{permissions}
-        </if>
-        <if test="mark">
-            mark = #{mark}
-        </if>
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            name = #{name},
+            password = #{password},
+            <if test="permissions">
+                permissions = #{permissions},
+            </if>
+            <if test="mark">
+                mark = #{mark},
+            </if>
+        </trim>
         where id = #{id}
     </update>
 

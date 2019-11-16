@@ -34,8 +34,9 @@ class UserServiceImplTest {
     void update() {
         User updateUser = new User();
         updateUser.setId(1);
-        updateUser.setName("yanle3");
-        updateUser.setPassword("yanle3");
+        updateUser.setName("yanle");
+        updateUser.setPassword("yanle");
+        updateUser.setMark("备注信息");
         userService.update(updateUser);
     }
 
