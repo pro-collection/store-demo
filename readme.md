@@ -65,3 +65,49 @@ create table if not exists user (
 )
   default charset = utf8;
 ```
+
+### 接口：
+
+#### 用户相关
+```
+post: /api/user/create
+params: {name: string, password: string, permissions: number, mark: string}
+备注： permissions - 权限， 范围为 1-3
+
+
+post: /api/user/login
+params: {name: string, password: string}
+
+
+get: /api/user/logout
+params: 无
+
+
+post: /api/user/get - 查询用户信息
+params: {name: string, password: string}
+
+
+post: /api/user/update - 更新用户
+params: {name: string, password: string, permissions: number, mark: string}
+
+
+post: /api/user/delete - 删除用户
+params: {id: number }
+```
+
+#### 产品相关
+这里的接口需要登录才能调用
+```
+post: /api/product/insert  -  新建商品
+parmas: {name: string, specification: string, price: number, upperLimit: number, lowerLimit: number, url: string}
+
+
+get: /api/product/list  - 查看列表
+params: 无
+
+
+post: /api/product/remove  - 删除商品
+params: {id: int}
+
+
+```
