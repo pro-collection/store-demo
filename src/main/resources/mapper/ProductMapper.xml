@@ -47,4 +47,33 @@
     <delete id="removeProduct" parameterType="int">
         delete from product where id = #{id}
     </delete>
+
+    <update id="updateList">
+        update product
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+
+            <if test="specification != null and specification != '' ">
+                specification = #{specification},
+            </if>
+
+            <if test="price != price and price != 0 ">
+                price = #{price},
+            </if>
+
+            <if test="upperLimit != null and upperLimit != 0 ">
+                upperLimit = #{upperLimit},
+            </if>
+
+            <if test="lowerLimit != null and lowerLimit != 0 ">
+                lowerLimit = #{lowerLimit},
+            </if>
+
+            <if test="url != null and url != 0 ">
+                url = #{url},
+            </if>
+        </trim>
+    </update>
 </mapper>

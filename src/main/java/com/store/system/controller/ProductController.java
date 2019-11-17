@@ -6,7 +6,6 @@ import com.store.system.entity.Product;
 import com.store.system.service.ProductService;
 import com.store.system.utils.JsonRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,5 +57,18 @@ public class ProductController {
             e.printStackTrace();
             return BaseResponse.responseError(e.getMessage());
         }
+    }
+
+    @PostMapping("update")
+    public BaseResponse updateList(HttpServletRequest request) {
+        Product product = JSONObject.parseObject(JsonRequest.getPayload(request), Product.class);
+        if (product.getId() != 0) {
+            productService.updateList(product);
+            return BaseResponse.responseSuccess(null, "更新商品成功");
+        } else {
+            return BaseResponse.responseError("id 为空");
+        }
+
+
     }
 }

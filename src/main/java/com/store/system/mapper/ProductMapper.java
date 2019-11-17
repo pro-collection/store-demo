@@ -12,4 +12,6 @@ public interface ProductMapper {
     void insertProduct(Product product);
 
     void removeProduct(int id);
+
+    void updateList(Product product);
 }
